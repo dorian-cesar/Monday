@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vista de Gantt</title>
+    <style>
+        #chart_div {
+            width: 80%;
+            display:flex;
+            margin: auto;
+            margin-top: 30px;
+        }
+    </style>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        // Cargar la biblioteca de Google Charts
+        google.charts.load('current', {'packages':['gantt']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function daysToMilliseconds(days) {
+            return days * 24 * 60 * 60 * 1000;
+        }
+
+        function drawChart() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'ID');
+            data.addColumn('string', 'Tarea');
+            data.addColumn('string', 'Recurso');
+            data.addColumn('date', 'Inicio');
+            data.addColumn('date', 'Fin');
+            data.addColumn('number', 'Duración');
+            data.addColumn('number', 'Porcentaje de Avance');
+            data.addColumn('string', 'Predecesor');
+
+            // Agrega aquí tus datos de las tareas
+            data.addRows([
+                ['1', 'Planificación', 'Planificación',
+                 new Date(2024, 7, 1), new Date(2024, 7, 5), null, 100, null],
+                ['2', 'Desarrollo', 'Desarrollo',
+                 new Date(2024, 7, 6), new Date(2024, 7, 19), null, 60, '1'],
+                ['3', 'Pruebas', 'Pruebas',
+                 new Date(2024, 7, 20), new Date(2024, 7, 29), null, 30, '2'],
+                ['4', 'Despliegue', 'Despliegue',
+                 new Date(2024, 7, 30), new Date(2024, 8, 2), null, 0, '3']
+            ]);
+
+            var options = {
+                height: 400,
+                gantt: {
+                    trackHeight: 30
+                }
+            };
+
+            var chart = new google.visualization.Gantt(document.getElementById('chart_div'));
+
+            chart.draw(data, options);
+        }
+    </script>
+</head>
+<body>
+    <div id="chart_div"></div>
+</body>
+</html>
